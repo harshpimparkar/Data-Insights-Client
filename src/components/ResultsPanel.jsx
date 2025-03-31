@@ -1,9 +1,17 @@
-// components/ResultsPanel.jsx
-import React from "react";
+import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { FaCopy, FaCheck } from "react-icons/fa";
 
 const ResultsPanel = ({ results, type, setActiveViz }) => {
+  const [copiedAnalysis, setCopiedAnalysis] = useState(false);
+  const [copiedVisualization, setCopiedVisualization] = useState(false);
   if (!results) return null;
+
+  const handleCopyToClipboard = (text, setStateFn) => {
+    navigator.clipboard.writeText(text);
+    setStateFn(true);
+    setTimeout(() => setStateFn(false), 2000);
+  };
 
   const renderVisualizations = () => {
     if (!results?.visualizations) {
@@ -19,7 +27,6 @@ const ResultsPanel = ({ results, type, setActiveViz }) => {
               className="visualization-card"
               onClick={() => setActiveViz(viz)}
             >
-              {/* <h4>Visualization {key.split("_")[1]}</h4> */}
               <img
                 src={`data:${viz.type};base64,${viz.data}`}
                 alt={`Visualization ${key}`}
@@ -41,10 +48,37 @@ const ResultsPanel = ({ results, type, setActiveViz }) => {
             <ReactMarkdown>{results.answer}</ReactMarkdown>
             {results.analysis_code && (
               <div className="code-section">
-                <h4>Analysis Code</h4>
-                <pre>{results.analysis_code}</pre>
+                <div className="code-header">
+                  <h4>Analysis Code</h4>
+                  <button
+                    className="copy-button"
+                    onClick={() =>
+                      handleCopyToClipboard(
+                        results.analysis_code,
+                        setCopiedAnalysis
+                      )
+                    }
+                  >
+                    {copiedAnalysis ? (
+                      <FaCheck />
+                    ) : (
+                      <img
+                        src="https://img.icons8.com/?size=50&id=DE8iRKgHEwsw&format=png"
+                        alt="Copy Code!"
+                        className="copy-button"
+                      />
+                    )}
+                    <span>{copiedAnalysis ? " Copied!" : ""}</span>
+                  </button>
+                </div>
+                <div className="actual-code">
+                  <pre>{results.analysis_code}</pre>
+                </div>
               </div>
             )}
+            <h6 className="warning">
+              Note: The analysis based on the data provided.
+            </h6>
           </div>
         );
       case "insights":
@@ -58,8 +92,7 @@ const ResultsPanel = ({ results, type, setActiveViz }) => {
               {renderVisualizations()}
             </div>
             <h6 className="warning">
-              Note: The visualizations above are generated based on the data
-              provided.
+              Note: The insights are generated based on the data provided.
             </h6>
           </div>
         );
@@ -72,13 +105,37 @@ const ResultsPanel = ({ results, type, setActiveViz }) => {
             </div>
             {results.visualization_code && (
               <div className="code-section">
-                <h4>Visualization Code</h4>
-                <pre>{results.visualization_code}</pre>
+                <div className="code-header">
+                  <h4>Visualization Code</h4>
+                  <button
+                    className="copy-button"
+                    onClick={() =>
+                      handleCopyToClipboard(
+                        results.visualization_code,
+                        setCopiedVisualization
+                      )
+                    }
+                  >
+                    {copiedVisualization ? (
+                      <FaCheck />
+                    ) : (
+                      <img
+                        src="https://img.icons8.com/?size=50&id=DE8iRKgHEwsw&format=png"
+                        alt="Copy Code!"
+                        className="copy-button"
+                      />
+                    )}
+                    <span>{copiedVisualization ? " Copied!" : ""}</span>
+                  </button>
+                </div>
+                <div className="actual-code">
+                  <pre>{results.visualization_code}</pre>
+                </div>
               </div>
             )}
             <h6 className="warning">
-              Note: The data is generated based on the data
-              provided and your query: "{results.query}"
+              Note: The visualizations are generated based on the data provided
+              and your query: "{results.query}"
             </h6>
           </div>
         );

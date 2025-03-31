@@ -3,15 +3,16 @@
   --primary-hover: #1d4ed8;
   --background-color: #f8fafc;
   --card-background: #ffffff;
-  --error-color: rgb(236, 45, 45);
-  --error-bg-color: rgb(251, 223, 223);
-  --text-primary: rgb(48, 61, 82);
-  --text-success: rgb(44, 153, 11);
+  --error-color: #ec2d2d;
+  --error-bg-color: #fbdfdf;
+  --text-primary: #303d52;
+  --text-success: #2c990b;
   --text-secondary: #64748b;
   --border-color: #2563eb;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --code-background: rgba(0, 123, 255, 0.5);
 }
+
 h2,
 h3,
 h4 {
@@ -22,24 +23,20 @@ h4 {
 .container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 10px;
-  font-family: "Inter", serif;
-  font-optical-sizing: auto;
-  background: transparent;
+  width:100%;
+  padding-top: 20px;
+  font-family: "Inter", sans-serif;
+  background: var(--background-color);
+  min-height: 100vh;
 }
+
 .card {
-  background-color: #fff;
+  background-color: var(--card-background);
   border-radius: 8px;
   box-shadow: 0 1px 5px rgba(0, 123, 255, 0.5);
   padding: 2rem;
+  margin-bottom: 2rem;
 }
-
-/* .file-upload-section {
-  padding: 1rem;
-  margin-bottom: 20px;
-  border-radius: 0.5rem;
-  cursor: pointer;
-} */
 
 .file-upload input[type="file"] {
   width: 50%;
@@ -57,19 +54,14 @@ input {
 }
 
 .file-status {
-  color: var(--text-success);
-  margin: 1rem 0;
-  background: rgba(108, 237, 65, 0.1);
   width: 50%;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--text-success);
-  padding: 10px;
-  background-color: rgb(234, 255, 234);
-  color: rgb(0, 128, 0);
-  border: 1px solid rgb(0, 128, 0);
-  border-radius: 5px;
+  margin: 1rem 0;
+  padding: 0.5rem 10px;
   font-size: 14px;
+  color: var(--text-success);
+  background: rgba(108, 237, 65, 0.1);
+  border: 1px solid var(--text-success);
+  border-radius: 5px;
 }
 
 .file-status:hover {
@@ -78,125 +70,136 @@ input {
 
 .error-message {
   width: 50%;
+  margin: 2px 0;
+  padding: 0.5rem;
   color: var(--error-color);
   background: var(--error-bg-color);
-  margin: 2px;
-  padding: 0.5rem;
-  border: 2px dashed rgb(229, 158, 158);
+  border: 2px dashed #e59e9e;
   border-radius: 5px;
 }
+
 .loading {
-  margin: 0 auto;
+  text-align: center;
   color: #007bff;
   font-weight: bold;
+  margin: 1rem 0;
 }
+
 .operation-tabs {
   display: flex;
   margin-bottom: 20px;
   border-bottom: 1px solid #e0e0e0;
 }
+
 .tab-button {
+  margin: 0 5px 5px;
   padding: 10px 15px;
-  background: none;
-  border: none;
-  cursor: pointer;
   font-size: 16px;
-  transition: all 0.3s;
-  border: 0.5px solid #1d4ed8;
-  color: #1d4ed8;
-  margin: 0 5px;
-  margin-bottom: 5px;
   font-weight: bold;
+  border: 0.5px solid var(--primary-hover);
+  color: var(--primary-hover);
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s;
 }
+
 .tab-button:hover {
-  color: rgb(255, 255, 255);
   background-color: rgb(198, 223, 249);
+  color: #fff;
 }
+
 .tab-button.active {
-  color: rgb(255, 255, 255);
   background-color: #007bff;
-  /* font-weight: bold; */
+  color: #fff;
 }
+
 .operation-container {
   margin-bottom: 2px;
   padding: 5px;
   border-radius: 6px;
 }
+
 .operation-input {
-  width: 70%;
   display: flex;
   gap: 10px;
+  width: 70%;
 }
-.operation-btn {
-  background-color: rgb(255, 255, 255);
-  color: #007bff;
-  border: 1.5px solid rgb(49, 104, 255);
-  border-radius: 4px;
-}
+
 .operation-input input {
   flex-grow: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  background-color: #f8fafc;
-  border-radius: 10px;
   font-size: 16px;
+  border: 1px solid #ddd;
+  background-color: var(--background-color);
+  border-radius: 10px;
   outline: none;
-  color: rgb(63, 76, 105);
+  color: #3f4c69;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 .operation-input input:focus {
   border-color: #007bff;
-  outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-.operation-message {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+.operation-btn {
+  background-color: #fff;
+  color: #007bff;
+  border: 1.5px solid #3168ff;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: background-color 0.1s;
 }
+
 button {
-  background-color: #1d4ed8;
-  color: white;
+  background-color: var(--primary-hover);
+  color: #fff;
   border: none;
   padding: 10px 15px;
   border-radius: 2px;
   cursor: pointer;
   transition: background-color 0.1s;
 }
+
 button:hover {
   background-color: rgb(163, 184, 219);
 }
+
 button:disabled {
   background-color: rgb(247, 247, 247);
-  color:rgb(87, 116, 198);
+  color: rgb(87, 116, 198);
   cursor: not-allowed;
 }
+
 .results-panel {
   margin-top: 20px;
   padding: 10px;
   background-color: #f5f5f5;
   border-radius: 6px;
 }
+
 .visualizations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 0.5fr));
-  margin-top: 15px;
-  margin-left: 5rem;
   gap: 1rem;
+  margin: 15px 0 0 5rem;
 }
+
 .visualization-card {
   width: 85%;
-  background-color: white;
+  background-color: #fff;
   border-radius: 6px;
-  /* padding: 50px; */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
+
 .visualization-image {
   max-width: 80%;
-  /* width: 100%; */
   height: auto;
   border-radius: 4px;
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -209,20 +212,23 @@ button:disabled {
   align-items: center;
   z-index: 1000;
 }
+
 .modal-content {
-  background-color: white;
-  padding: 5px;
-  border-radius: 8px;
+  position: relative;
   max-width: 90%;
   max-height: 90%;
-  position: relative;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 8px;
   overflow: auto;
 }
+
 .modal-image {
+  width: 80%;
   max-width: 100%;
   max-height: 90vh;
-  width: 80%;
 }
+
 .close-button {
   position: absolute;
   top: 10px;
@@ -233,20 +239,23 @@ button:disabled {
   cursor: pointer;
   color: #333;
 }
+
 .code-section {
   margin-top: 15px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 4px;
   padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
   overflow-x: auto;
 }
+
 .code-section pre {
   margin: 0;
   white-space: pre-wrap;
   font-family: monospace;
 }
+
 .warning {
-  color: #666;
-  font-style: italic;
   margin-top: 10px;
+  font-style: italic;
+  color: #666;
 }

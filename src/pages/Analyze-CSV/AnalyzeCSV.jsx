@@ -5,21 +5,27 @@ import AnalysisOperation from "../../components/AnalysisOperation";
 import InsightsOperation from "../../components/InsightsOperation";
 import VisualizationOperation from "../../components/VisualizationOperation";
 import ResultsPanel from "../../components/ResultsPanel";
+import Footer from "../../components/Footer";
+import { useAuth } from "../../context/UseAuth";
 import "./AnalyzeCSV.css";
 
 const AnalyzeCSV = () => {
+  const { user } = useAuth();
+
+  // State hooks
   const [file, setFile] = useState(null);
   const [fileStatus, setFileStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("analysis");
 
-  // Results for each operation type
+  // Operation results states
   const [analysisResults, setAnalysisResults] = useState(null);
   const [insightResults, setInsightResults] = useState(null);
   const [visualizationResults, setVisualizationResults] = useState(null);
   const [activeViz, setActiveViz] = useState(null);
 
+  // Handle file upload process
   const handleFileUpload = async (selectedFile) => {
     if (!selectedFile) return;
 
@@ -61,7 +67,7 @@ const AnalyzeCSV = () => {
     }
   };
 
-  // Determine which operation component to show
+  // Render the active operation component based on the active tab
   const renderActiveOperation = () => {
     switch (activeTab) {
       case "analysis":
@@ -97,7 +103,7 @@ const AnalyzeCSV = () => {
     }
   };
 
-  // Get current results based on active tab
+  // Retrieve the current results based on the active tab
   const getCurrentResults = () => {
     switch (activeTab) {
       case "analysis":
@@ -111,6 +117,7 @@ const AnalyzeCSV = () => {
     }
   };
 
+  // Render a modal for the active visualization if available
   const renderModal = () => {
     if (!activeViz) return null;
 
@@ -118,7 +125,7 @@ const AnalyzeCSV = () => {
       <div className="modal-overlay" onClick={() => setActiveViz(null)}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <button className="close-button" onClick={() => setActiveViz(null)}>
-            ×
+            &times;
           </button>
           <img
             src={`data:${activeViz.type};base64,${activeViz.data}`}
@@ -133,8 +140,9 @@ const AnalyzeCSV = () => {
   return (
     <div className="container">
       <div className="card">
-        <h3>What do you want to analyze today?</h3>
-
+        <h3>
+          {!file ? `Hey, ${user.name.split(" ")[0]}` : `Here's your CSV file, ${user.name.split(" ")[0]}`}
+        </h3>
         <FileUploadSection
           handleFileUpload={handleFileUpload}
           fileStatus={fileStatus}
@@ -157,6 +165,7 @@ const AnalyzeCSV = () => {
         />
       </div>
       {renderModal()}
+      {/* <Footer /> */}
     </div>
   );
 };
