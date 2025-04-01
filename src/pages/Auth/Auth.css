@@ -9,7 +9,7 @@
   font-family: Inter, sans-serif;
   background-color: #f8f9fa;
   border-radius: 10px;
-  box-shadow: 0 0 0 1px rgba(84, 118, 154, 0.25);
+  box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
   max-width: 450px;
   margin: 40px auto;
 }
