@@ -35,36 +35,40 @@ const Navbar = () => {
       <div className="nav-hero">
         <div className="nav-logo">
           <img
-            src="https://img.icons8.com/?size=160&id=eNxkAvdW2BDa&format=png"
+            src="https://img.icons8.com/?size=160&id=REbU1lOfI3LV&format=png"
             alt="DataGram logo"
           />
         </div>
         <div className="nav-name">DataGram</div>
       </div>
 
-      <div className="nav-links">
-        <Link to="/">Home</Link>
-        {user ? <Link to="/analyse-csv">Insights</Link> : null}
-        <Link to="/about">About</Link>
-      </div>
+      {user && (
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          {user ? <Link to="/analyse-csv">Insights</Link> : null}
+          {/* <Link to="/about">About</Link> */}
+        </div>
+      )}
 
       <div className="auth-buttons">
         {user ? (
           <>
-            <p className="user-name">{user.name ? `${user.name.split(" ")[0]}` : "User"}</p>
+            <p className="user-name">
+              {user.name ? `${user.name.split(" ")[0]}` : "User"}
+            </p>
             <p onClick={handleLogout} className="Logout">
               Logout
             </p>
           </>
         ) : (
-          <>
+          <div className="auth-links">
             <Link to="/login" className="login">
               Login
             </Link>
             <Link to="/signup" className="signup">
               Signup
             </Link>
-          </>
+          </div>
         )}
       </div>
     </div>

@@ -20,19 +20,23 @@
   align-items: center;
   align-content: center;
   gap: 0.5rem;
+  margin-left:0.5rem;
 }
 
 .nav-name {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  background-color: linear-gradient(90deg,rgb(11, 139, 244),rgb(22, 62, 222));
+  background: linear-gradient(90deg,rgb(11, 139, 244),rgb(22, 62, 222));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
   letter-spacing: 0;
   font-weight: 800;
 }
 
 .nav-logo img {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   padding: 0.5rem;
 }
 
@@ -70,11 +74,19 @@
   display: flex;
   gap: 1rem;
 }
+.auth-links{
+  display: flex;
+  gap: 1rem;
+  margin-right: 0.5rem;
+  padding: 0.5rem 0.5rem; 
+}
+
 
 .login {
   display: flex;
   align-items: center;
-  background-color: #0a5cf5;
+  background: linear-gradient(90deg,rgb(11, 139, 244),rgb(22, 62, 222));
+  box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
   color: white;
   border: none;
   padding: 0.5rem 0.7rem;
@@ -90,6 +102,7 @@
   align-items: center;
   color: black;
   border: 1px solid rgb(228, 228, 228);
+  box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0.7rem;
   border-radius: 10px;
   cursor: pointer;

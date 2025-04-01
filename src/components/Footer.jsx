@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="footer-brand">
             <div className="footer-logo">
               <img
-                src="https://img.icons8.com/?size=160&id=eNxkAvdW2BDa&format=png"
+                src="https://img.icons8.com/?size=160&id=112604&format=png"
                 alt="DataGram logo"
               />
               <h2 className="footer-name">DataGram</h2>
