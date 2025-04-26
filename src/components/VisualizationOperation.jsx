@@ -23,6 +23,7 @@ const VisualizationOperation = ({
         "http://localhost:5000/v1/query-visualizations",
         {
           method: "POST",
+          credentials: "include", // ← Added this crucial line
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,7 +32,8 @@ const VisualizationOperation = ({
       );
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json(); // Added to get detailed error message
+        throw new Error(errorData.message || "Visualization failed");
       }
 
       const data = await response.json();

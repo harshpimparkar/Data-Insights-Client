@@ -1,4 +1,3 @@
-// components/OperationTabs.jsx
 import React from "react";
 
 const OperationTabs = ({ activeTab, setActiveTab }) => {
@@ -16,7 +15,6 @@ const OperationTabs = ({ activeTab, setActiveTab }) => {
       >
         Data Analysis
       </button>
-
       <button
         className={`tab-button ${
           activeTab === "visualization" ? "active" : ""
@@ -24,6 +22,12 @@ const OperationTabs = ({ activeTab, setActiveTab }) => {
         onClick={() => setActiveTab("visualization")}
       >
         Create Visualizations
+      </button>
+      <button
+        className={`tab-button ${activeTab === "report" ? "active" : ""}`}
+        onClick={() => setActiveTab("report")}
+      >
+        Generate Report
       </button>
     </div>
   );

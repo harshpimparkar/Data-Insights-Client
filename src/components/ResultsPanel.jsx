@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { FaCopy, FaCheck } from "react-icons/fa";
+import { FaCopy, FaCheck, FaDownload } from "react-icons/fa";
 
 const ResultsPanel = ({ results, type, setActiveViz }) => {
   const [copiedAnalysis, setCopiedAnalysis] = useState(false);
   const [copiedVisualization, setCopiedVisualization] = useState(false);
+
   if (!results) return null;
 
   const handleCopyToClipboard = (text, setStateFn) => {
@@ -83,18 +84,20 @@ const ResultsPanel = ({ results, type, setActiveViz }) => {
         );
       case "insights":
         return (
-          <div className="insights-results">
-            <h3>Insights</h3>
-            <ReactMarkdown>
-              {results.llm_analysis && results.llm_analysis[0]?.message}
-            </ReactMarkdown>
-            <div className="Visualization-figures">
-              {renderVisualizations()}
+          <>
+            <div className="insights-results">
+              <h3>Insights</h3>
+              <ReactMarkdown>
+                {results.llm_analysis && results.llm_analysis[0]?.message}
+              </ReactMarkdown>
+              <div className="Visualization-figures">
+                {renderVisualizations()}
+              </div>
+              <h6 className="warning">
+                Note: The insights are generated based on the data provided.
+              </h6>
             </div>
-            <h6 className="warning">
-              Note: The insights are generated based on the data provided.
-            </h6>
-          </div>
+          </>
         );
       case "visualization":
         return (
@@ -136,6 +139,29 @@ const ResultsPanel = ({ results, type, setActiveViz }) => {
             <h6 className="warning">
               Note: The visualizations are generated based on the data provided
               and your query: "{results.query}"
+            </h6>
+          </div>
+        );
+      case "report":
+        return (
+          <div className="report-results">
+            <h3>Generated Report</h3>
+            {console.log(results.report)}
+            {results.report?.pdf_url && (
+              <div className="download-section">
+                <a
+                  href={`http://localhost:5000${results.report.pdf_url}`}
+                  className="download-button"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaDownload /> Download Full Report (PDF)
+                </a>
+              </div>
+            )}
+
+            <h6 className="warning">
+              Note: This report is generated based on the analysis of your data.
             </h6>
           </div>
         );

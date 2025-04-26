@@ -16,11 +16,19 @@ const AnalysisOperation = ({ setResults, setLoading, setError, loading }) => {
     try {
       const response = await fetch("http://localhost:5000/v1/query-analysis", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        credentials: "include", // ← THIS IS CRUCIAL
+        headers: { 
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ query: analysisQuery }),
       });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Analysis failed");
+      }
 
-      if (!response.ok) throw new Error("Network response was not ok");
+      // if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
       if (data.status === "success") {

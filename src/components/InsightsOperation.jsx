@@ -7,10 +7,17 @@ const InsightsOperation = ({ setResults, setLoading, setError, loading }) => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/v1/csv-insights");
+      // Include credentials to maintain session
+      const response = await fetch("http://localhost:5000/v1/csv-insights", {
+        method: "GET",
+        credentials: "include",  // Required for cookies/session
+      });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || "Failed to generate insights (Server Error)"
+        );
       }
 
       const data = await response.json();
@@ -35,7 +42,11 @@ const InsightsOperation = ({ setResults, setLoading, setError, loading }) => {
 
   return (
     <div className="operation-container">
-      <button onClick={generateInsights} disabled={loading} className="operation-btn">
+      <button
+        onClick={generateInsights}
+        disabled={loading}
+        className="operation-btn"
+      >
         Generate Insights
       </button>
       <div className="operation-message">

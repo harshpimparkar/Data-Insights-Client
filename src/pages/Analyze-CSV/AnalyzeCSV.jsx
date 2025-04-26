@@ -4,6 +4,7 @@ import OperationTabs from "../../components/OperationsTab";
 import AnalysisOperation from "../../components/AnalysisOperation";
 import InsightsOperation from "../../components/InsightsOperation";
 import VisualizationOperation from "../../components/VisualizationOperation";
+import ReportOperation from "../../components/ReportOperation"; // Import the new component
 import ResultsPanel from "../../components/ResultsPanel";
 import Footer from "../../components/Footer";
 import { useAuth } from "../../context/UseAuth";
@@ -23,6 +24,7 @@ const AnalyzeCSV = () => {
   const [analysisResults, setAnalysisResults] = useState(null);
   const [insightResults, setInsightResults] = useState(null);
   const [visualizationResults, setVisualizationResults] = useState(null);
+  const [reportResults, setReportResults] = useState(null); // Add report results state
   const [activeViz, setActiveViz] = useState(null);
 
   // Handle file upload process
@@ -44,6 +46,7 @@ const AnalyzeCSV = () => {
       const response = await fetch("http://localhost:5000/v1/csv-upload", {
         method: "POST",
         body: formData,
+        credentials: "include", // Important for maintaining session
       });
 
       if (!response.ok) {
@@ -98,6 +101,15 @@ const AnalyzeCSV = () => {
             loading={loading}
           />
         );
+      case "report":
+        return (
+          <ReportOperation
+            setResults={setReportResults}
+            setLoading={setLoading}
+            setError={setError}
+            loading={loading}
+          />
+        );
       default:
         return null;
     }
@@ -112,6 +124,8 @@ const AnalyzeCSV = () => {
         return insightResults;
       case "visualization":
         return visualizationResults;
+      case "report":
+        return reportResults;
       default:
         return null;
     }
@@ -141,7 +155,9 @@ const AnalyzeCSV = () => {
     <div className="container">
       <div className="card">
         <h3>
-          {!file ? `Hey, ${user.name.split(" ")[0]}` : `Here's your CSV file, ${user.name.split(" ")[0]}`}
+          {!file
+            ? `Hey, ${user.name.split(" ")[0]}`
+            : `Here's your CSV file, ${user.name.split(" ")[0]}`}
         </h3>
         <FileUploadSection
           handleFileUpload={handleFileUpload}
@@ -157,7 +173,6 @@ const AnalyzeCSV = () => {
 
         {error && <div className="error-message">{error}</div>}
         {loading && <div className="loading">Processing...</div>}
-
         <ResultsPanel
           results={getCurrentResults()}
           type={activeTab}
@@ -165,7 +180,6 @@ const AnalyzeCSV = () => {
         />
       </div>
       {renderModal()}
-      {/* <Footer /> */}
     </div>
   );
 };
