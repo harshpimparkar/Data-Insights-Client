@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axios.utils.js"; // Adjust path as needed
+import axiosInstance from "../../utils/axios.utils.js";
 import { useAuth } from "../../context/UseAuth.jsx";
 
 const Login = () => {
@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { setUser } = useAuth(); // Import this from your context
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -24,7 +24,8 @@ const Login = () => {
     }
 
     try {
-      // Make sure your backend endpoint matches this path
+      console.log("Attempting login to:", axiosInstance.defaults.baseURL);
+      
       const res = await axiosInstance.post("/auth/login", {
         email,
         password,
@@ -32,26 +33,39 @@ const Login = () => {
 
       console.log("Login successful:", res.data);
 
-      // The JWT is now set as a cookie by the backend
-      // You only need to store user info if needed in the app
       if (res.data.user) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        setUser(res.data.user);
+        navigate("/");
+      } else {
+        // Handle unusual case where backend returns success but no user
+        setError("Login successful but user data is missing");
       }
-      setUser(res.data.user);
-      // Navigate only on success
-      navigate("/");
     } catch (error) {
       console.error("Login error:", error);
 
-      // Handle network errors specifically
+      // More detailed error handling
       if (error.code === "ERR_NETWORK") {
         setError(
-          "Cannot connect to server. Please check if the server is running."
+          "Cannot connect to server. Please check your internet connection or try again later."
         );
-      } else if (error.response && error.response.data) {
-        setError(error.response.data.message || "Login failed");
+      } else if (error.response) {
+        // Handle specific HTTP status codes
+        switch (error.response.status) {
+          case 401:
+            setError("Invalid email or password");
+            break;
+          case 404:
+            setError("Server endpoint not found. Please contact support.");
+            break;
+          case 500:
+            setError("Server error. Please try again later.");
+            break;
+          default:
+            setError(error.response.data.message || "Login failed");
+        }
       } else {
-        setError("An unexpected error occurred");
+        setError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setLoading(false);
